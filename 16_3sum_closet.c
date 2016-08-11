@@ -64,7 +64,6 @@ int threeSumClosest(int* nums, int numsSize, int target) {
             min = diff;
             result = sum;
         }
-        printf("%d,%d,%d\n", min, sum, bigger);
 
         if(bigger == false){
             if(j + 1 < k) {
