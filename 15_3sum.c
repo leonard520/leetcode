@@ -56,17 +56,17 @@ int** threeSum(int* nums, int numsSize, int* returnSize) {
             result[count++] = array;
             do{
                 j++;
-            } while(j + 1 < k && nums[j] == nums[j - 1]);
+            } while(j < k && nums[j] == nums[j - 1]);
             do {
                 k--;
-            } while(k - 1 > j && nums[k] == nums[k + 1]);
+            } while(k > j && nums[k] == nums[k + 1]);
             
             
         } else if(sum < 0){
             if(j + 1 < k) {
                 do{
                     j++;
-                } while(j + 1 < k && nums[j] == nums[j - 1]);
+                } while(j < k && nums[j] == nums[j - 1]);
                 
             } else {
                 do {
@@ -79,7 +79,7 @@ int** threeSum(int* nums, int numsSize, int* returnSize) {
             if(k - 1 > j){
                 do {
                     k--;
-                } while(k - 1 > j && nums[k] == nums[k + 1]);
+                } while(k > j && nums[k] == nums[k + 1]);
             } else {
                 do {
                   i++;
