@@ -4,44 +4,54 @@
 #include <string.h>
 #include <stdio.h>
 
-void push(char *s, char c, int length){
-    s[length] = c;
-}
-
-char pop(char *s, int length){
-    return s[length - 1];
-}
-bool isValid(char* s) {
-    if(s == NULL){
-        return false;
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
+    if(l1 == NULL && l2 == NULL){
+        return NULL;
+    } else if(l1 == NULL){
+        return l2;
+    } else if(l2 == NULL){
+        return l1;
     }
-    int length = 0;
-    char *stack = malloc(sizeof(char) * 1024);
-    while(*s != '\0'){
-        char c = *s;
-        if(c == '[' || c == '{' || c == '('){
-            push(stack, c, length);
-            length++;
-        } else if(c == ']'){
-            if(length > 0 && pop(stack, length) == '['){
-                length--;
-            } else {
-                return false;
-            }
-        } else if(c == '}'){
-            if(length > 0 && pop(stack, length) == '{'){
-                length--;
-            } else {
-                return false;
-            }
-        } else if(c == ')'){
-            if(length > 0 && pop(stack, length) == '('){
-                length--;
-            } else {
-                return false;
-            }
-        } 
-        s++;
+    struct ListNode* head;
+    struct ListNode* point;
+    if(l1->val <= l2->val){
+        head = point = l1;
+        l1 = l1->next;
+    } else {
+        head = point = l2;
+        l2 = l2->next;
     }
-    return length == 0 ? true : false;
+    while(l1 != NULL && l2 != NULL){
+        if(l1->val <= l2->val){
+            point->next = l1;
+            point = l1;
+            l1 = l1->next;
+        } else {
+            point->next = l2;
+            point = l2;
+            l2 = l2->next;
+        }
+    }
+    if(l1 == NULL){
+        while(l2 != NULL){
+            point->next = l2;
+            point = l2;
+            l2 = l2->next;
+        }
+    }
+    if(l2 == NULL){
+        while(l1 != NULL){
+            point->next = l1;
+            point = l1;
+            l1 = l1->next;
+        }
+    }
+    return head;
 }
