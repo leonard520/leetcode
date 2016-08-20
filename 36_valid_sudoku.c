@@ -6,12 +6,7 @@
 
 bool isValidSudoku(char** board, int boardRowSize, int boardColSize) {
 	int i, j;
-	for(i = 0; i < 9; i++){
-		for(j = 0; j < 9; j++){
-			printf("%c ", board[i][j]);
-		}
-		printf("\n");
-	}
+
 	char *map = malloc(sizeof(char) * 9);
 
 	for(i = 0; i < 9; i++){
@@ -20,7 +15,6 @@ bool isValidSudoku(char** board, int boardRowSize, int boardColSize) {
 			if(board[i][j] == '.' ) {
 				continue;
 			} else if(map[board[i][j] - 49] == '0'){
-				printf("1 %d, %d, %c\n", i, j, board[i][j]);
 				map[board[i][j] - 49] = '1';
 			} else {
 				printf("false\n");
@@ -34,7 +28,6 @@ bool isValidSudoku(char** board, int boardRowSize, int boardColSize) {
 			if(board[i][j] == '.' ) {
 				continue;
 			} else if(map[board[i][j] - 49] == '0'){
-				printf("2 %d, %d, %c\n", i, j, board[i][j]);
 				map[board[i][j] - 49] = '1';
 			} else {
 				printf("false\n");
@@ -47,11 +40,10 @@ bool isValidSudoku(char** board, int boardRowSize, int boardColSize) {
 			memset(map, '0', 9);
 			for(int m = 0; m < 3; m++){
 				for(int n = 0; n < 3; n++){
-					if(board[m][n] == '.' ) {
+					if(board[i + m][j + n] == '.' ) {
 						continue;
-					} else if(map[board[m][n] - 49] == '0'){
-						printf("3 %d, %d, %c\n", i, j, board[i][j]);
-						map[board[m][n] - 49] = '1';
+					} else if(map[board[i + m][j + n] - 49] == '0'){
+						map[board[i + m][j + n] - 49] = '1';
 					} else {
 						printf("false\n");
 						return false;
@@ -61,10 +53,4 @@ bool isValidSudoku(char** board, int boardRowSize, int boardColSize) {
 		}
 	}
 	return true;
-}
-
-int main(){
-	int array[] = {1,3,5,6};
-	printf("%d",searchInsert(array, 4, 5));
-	return 0;
 }
