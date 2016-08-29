@@ -46,15 +46,18 @@ bool isValid(char **board, int row, int col){
 
 bool findNextEmpty(char **bitmap, int *row, int *col){
 	int i, j;
+		printf("before: %d, %d\n", *row, *col);
+
 	i = *row;
 	while(i < 9){
 		j = (i == *row) ? *col + 1 : 0;
-		while(j < 9 && bitmap[i][j] == '0'){
+		while(j < 9 && bitmap[i][j] == '.'){
 			j++;
 		}
 		if(j < 9){
 			*row = i;
 			*col = j;
+			printf("after: %d, %d\n", *row, *col);
 			return true;
 		}
 		i++;
@@ -63,28 +66,47 @@ bool findNextEmpty(char **bitmap, int *row, int *col){
 }
 
 bool next(char **board, int row, int col, char **bitmap, char **option, int number){
+
+	if(isValid(board, row, col) == false){
+		return false;
+	}
+
+	if(isValid(board, row, col) == true && number == 81){
+		printf("valid");
+		return true;
+	}
+
+	printf("next: %d, %d\n", row, col);
 	int *i, *j;
 	i = malloc(sizeof(int));
 	j = malloc(sizeof(int));
 
 	int k, l;
-	
+	char **o = malloc(sizeof(char *)*9);
+	for(l = 0; l < 9; l++){
+		o[l] = malloc(sizeof(char)*9);
+		memcpy(o[l], option[l], 9);
+	}
+	char **b = malloc(sizeof(char *)*9);
+	for(l = 0; l < 9; l++){
+		b[l] = malloc(sizeof(char)*9);
+		memcpy(b[l], bitmap[l], 9);
+	}
 	//bitmap[row][col] = '0';
 	number++;
 	for(k = 0; k < 9; k++){
-		if(option[row][k] == '0'){
-			option[row][k] = '1';
-			board[row][col] = k + 49;;
+		if(o[row][k] == '0'){
+			o[row][k] = '1';
+			b[row][col] = k + 49;;
 			*i = row;
 			*j = col;
 			if(findNextEmpty(bitmap, i, j) == true){
-				next(board, *i, *j, bitmap, option, number);
+				next(board, *i, *j, b, o, number);
+			} else {
+				next(board, row, col, b, o, number);
 			}
-			option[row][k] = '0';
+			o[row][k] = '0';
 		}
-	}
-	if(isValid(board, row, col) == true && number == 81){
-		return true;
 	}
 	
 	return false;
@@ -130,15 +152,15 @@ void solveSudoku(char** board, int boardRowSize, int boardColSize) {
 
 int main(){
      char **board = malloc(sizeof(char *)*9);
-     char b1[] = {'.','1','9','7','4','8','6','3','2'}; board[0] = b1;
-     char b2[] = {'7','.','3','6','5','.','4','1','9'}; board[1] = b2;
-     char b3[] = {'4','2','6','1','3','9','8','.','5'}; board[2] = b3;
-     char b4[] = {'3','5','7','.','8','6','2','4','.'}; board[3] = b4;
-     char b5[] = {'2','6','4','3','1','7','5','9','8'}; board[4] = b5;
-     char b6[] = {'.','9','8','5','2','.','3','6','7'}; board[5] = b6;
-     char b7[] = {'9','7','5','8','.','3','1','2','4'}; board[6] = b7;
-     char b8[] = {'8','3','2','4','9','1','7','5','6'}; board[7] = b8;
-     char b9[] = {'6','4','1','.','7','5','9','8','3'}; board[8] = b9;
+char b1[] = {'.','.','.','.','.','.','.','6','.'}; board[0] = b1;
+     char b2[] = {'9','.','1','7','.','.','4','.','.'}; board[1] = b2;
+     char b3[] = {'7','.','4','6','.','5','.','2','.'}; board[2] = b3;
+     char b4[] = {'.','.','2','.','.','.','.','.','.'}; board[3] = b4;
+     char b5[] = {'.','.','.','.','.','.','5','.','.'}; board[4] = b5;
+     char b6[] = {'.','.','7','.','9','.','1','.','2'}; board[5] = b6;
+     char b7[] = {'.','.','8','.','.','.','.','1','.'}; board[6] = b7;
+     char b8[] = {'4','2','.','.','1','9','.','8','.'}; board[7] = b8;
+     char b9[] = {'5','.','.','.','7','.','.','.','6'}; board[8] = b9;
 
 	 solveSudoku(board, 9, 9);
 }
