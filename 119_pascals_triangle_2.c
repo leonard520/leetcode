@@ -12,10 +12,10 @@
 int* getRow(int rowIndex, int* returnSize) {
 	
     int i, j;
-    *returnSize = rowIndex;
-    int *returnValue = malloc(sizeof(int) * (rowIndex));
+    *returnSize = rowIndex + 1;
+    int *returnValue = malloc(sizeof(int) * (rowIndex + 1));
 
-    int **result = malloc(sizeof(int *) * rowIndex);
+    int **result = malloc(sizeof(int *) * (1 + rowIndex));
     for(i = 0; i <= rowIndex; i++){
     	result[i] = malloc(sizeof(int) * (i + 1));
     }
