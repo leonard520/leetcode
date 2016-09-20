@@ -34,24 +34,20 @@ bool isPalindrome(struct ListNode* head) {
             odd = false;
             break;
         }
-        printf("nod2 %d\n", node2->val);
 
-        printf("before n1 n2: %d %d\n", n1->val, n2->val);
         node1 = n2->next;
         n2->next = n1;
         n1 = n2;
         n2 = node1;
-        printf("after n1 n2: %d %d\n", n1->val, n2->val);
     }
+    head->next = NULL;
     if(odd == true){
         printf("odd\n");
         n1 = n1->next;
         while(n2){
-            printf("before n1 n2: %d %d\n", n1->val, n2->val);
             if(n1->val != n2->val){
                 return false;
             }
-            printf("after n1 n2: %d %d\n", n1->val, n2->val);
             n1 = n1->next;
             n2 = n2->next;
         }
@@ -72,10 +68,12 @@ int main(){
     struct ListNode* node2 = malloc(sizeof(struct ListNode*));
     struct ListNode* node3 = malloc(sizeof(struct ListNode*));
     struct ListNode* node4 = malloc(sizeof(struct ListNode*));
+    struct ListNode* node5 = malloc(sizeof(struct ListNode*));
     node1->next = node2; node1->val = 1;
     node2->next = node3; node2->val = 2;
-    node3->next = node4; node3->val = 2;
-    node4->next = NULL; node4->val = 1;
+    node3->next = node4; node3->val = 3;
+    node4->next = node5; node4->val = 2;
+    node5->next = NULL; node5->val = 1;
     printf("%d\n", isPalindrome(node1));
 
     return 0;
