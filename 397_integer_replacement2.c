@@ -15,7 +15,6 @@ int integerReplacement(int n) {
 		return 32;
 	}
     while(n != 1){
-    	printf("%d\n", n);
     	count++;
     	if(n % 2 == 0){
     		n /= 2;
