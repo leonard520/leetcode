@@ -15,11 +15,9 @@ int coinChange(int* coins, int coinsSize, int amount) {
 	dp[0] = 0;
 	for(int i = 1; i <= amount; i++){
 		for(int j = 0; j < coinsSize; j++){
-			printf("coin %d, %d\n", j, coins[j] );
 			if(i >= coins[j] && dp[i - coins[j]] != INT_MAX){
 				int tmp = dp[i - coins[j]] + 1;
 				dp[i] = dp[i] < tmp ? dp[i] : tmp;
-				printf("change to dp[i] = %d", dp[i]);
 			}
 		}
 	}
