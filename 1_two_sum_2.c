@@ -6,7 +6,7 @@
  * Note: The returned array must be malloced, assume caller calls free().
  */
 int* twoSum(int* nums, int numsSize, int target) {
-    int i, j;
+int i, j;
     int *result = malloc(2 * sizeof(int));
     int *shadow = malloc(numsSize * sizeof(int));
 
@@ -15,7 +15,7 @@ int* twoSum(int* nums, int numsSize, int target) {
     }
 
     quickSort(nums, 0, numsSize - 1);
-    i = 0; 
+    i = 0;
     j = numsSize - 1;
 
     while(nums[i] + nums[j] != target){
@@ -47,13 +47,13 @@ int* twoSum(int* nums, int numsSize, int target) {
 }
 
 int main(){
-    int array[] = {1,9,19,2,3,4,8};   
+    int array[] = {1,9,19,2,3,4,8};
     int *result = twoSum(array, 7, 6);
     if(result){
         for( int i = 0; i < 2; i++){
             printf("%d ", result[i]);
         }
     }
-    
+
     return 0;
 }

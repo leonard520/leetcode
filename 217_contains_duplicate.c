@@ -36,6 +36,9 @@ void quickSort(int* nums, int low, int high) {
 }
 
 bool containsDuplicate(int* nums, int numsSize) {
+  if(nums == NULL || numsSize == 0){
+    return false;
+  }
     quickSort(nums, 0, numsSize - 1);
     for(int i = 0; i < numsSize - 1; i++){
         if(nums[i] == nums[i + 1])
