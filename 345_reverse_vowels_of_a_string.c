@@ -6,15 +6,36 @@
 #include <stdint.h>
 #include <math.h>
 
-char* reverseString(char* s) {
+void swap(char *a, char *b){
+    char tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+char* reverseVowels(char* s) {
     if(s == NULL){
         return NULL;
     }
     int m = strlen(s);
-    for(int i = 0; i < m / 2; i++){
-        char tmp = s[i];
-        s[i] = s[m - i - 1];
-        s[m - i - 1] = tmp;
+    int dict[256];
+    memset(dict, 0, 256 * sizeof(int));
+    dict['a'] = 1, dict['A'] = 1;
+    dict['e'] = 1, dict['E'] = 1;
+    dict['i'] = 1, dict['I'] = 1;
+    dict['o'] = 1, dict['O'] = 1;
+    dict['u'] = 1, dict['U'] = 1;
+    int start = 0, end = m - 1;
+    while(start < end){
+      while(start < end && dict[s[start]] == 0) start++;
+      while(end > start && dict[s[end]] == 0) end--;
+      if(start < end) swap(&s[start], &s[end]);
+      start++;
+      end--;
     }
     return s;
+}
+
+int main(){
+  char *s ="hello";
+  printf("%s\n", reverseVowels(s));
 }
