@@ -27,5 +27,5 @@ int uniquePaths(int m, int n) {
 }
 
 int main(){
-  printf("%d\n", uniquePaths(1, 2));
+  printf("%d\n", uniquePaths(3, 7));
 }
