@@ -83,23 +83,24 @@ struct TreeNode* deQueue(struct Queue* q, int *l){
  *     struct TreeNode *right;
  * };
  */
+
 /**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *columnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
-int** levelOrder(struct TreeNode* root, int** columnSizes, int* returnSize) {
+* Return an array of size *returnSize.
+* Note: The returned array must be malloced, assume caller calls free().
+*/
+int* rightSideView(struct TreeNode* root, int* returnSize) {
 	if(root == NULL){
 		return NULL;
 	}
 	int i = 0, j = 0;
     struct Queue* q = malloc(sizeof(struct Queue));
     enQueue(q, root, 0);
-    *columnSizes = malloc(sizeof(int) * 10);
+    int *columnSizes = malloc(sizeof(int) * 10);
     for(i = 0; i < 10; i++){
-    	(*columnSizes)[i] = 0;
+    	columnSizes[i] = 0;
     }
     int **result = malloc(sizeof(int *) * 10);
+    int *right = malloc(sizeof(int *) * 10);
     int temp = 1;
     for(i = 0; i < 10; i++){
     	result[i] = malloc(sizeof(int) * temp);
@@ -110,18 +111,20 @@ int** levelOrder(struct TreeNode* root, int** columnSizes, int* returnSize) {
     	int *l = malloc(sizeof(int));
     	struct TreeNode* node = deQueue(q, l);
     	level = *l;
-    	int ll = (*columnSizes)[level];
+    	int ll = columnSizes[level];
     	printf("levle value, %d, ll %d\n", *l, ll);
     	printf("node value %d\n", node->val);
     	result[level][ll] = node->val;
-    	(*columnSizes)[level] = ll + 1;;
+    	columnSizes[level] = ll + 1;;
     	free(l);
     	if(node->left) enQueue(q, node->left, level + 1);
     	if(node->right) enQueue(q, node->right, level + 1);
     }
     *returnSize = level + 1;
-
-    return result;
+    for(i = 0; i < level + 1; i++){
+      right[i] = result[i][columnSizes[i] - 1];
+    }
+    return right;
 }
 
 int main(){
@@ -146,16 +149,12 @@ int main(){
 	t2->right = t4;
 	t3->left = t3->right = t4->left = t4->right = NULL;
 
-	int* columnSizes = malloc(sizeof(int) * 10);
-  int **result;
+  int *result;
 	int* returnSize = malloc(sizeof(int));
-	result = levelOrder(root, &columnSizes, returnSize);
+	result = rightSideView(root, returnSize);
 
   printf("return size: %d\n", *returnSize);
   for(int i = 0; i < *returnSize; i++){
-    for(int j = 0; j < columnSizes[i]; j++){
-      printf("%d, ", result[i][j]);
-    }
-    printf("\n");
+    printf("%d, ", result[i]);
   }
 }

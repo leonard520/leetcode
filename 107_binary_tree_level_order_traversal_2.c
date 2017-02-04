@@ -4,6 +4,12 @@
 #include <string.h>
 #include <stdio.h>
 
+void swap(int *a, int *b){
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
 struct ListNodeLevel {
     struct TreeNode* val;
     struct ListNodeLevel *next;
@@ -88,7 +94,7 @@ struct TreeNode* deQueue(struct Queue* q, int *l){
  * The sizes of the arrays are returned as *columnSizes array.
  * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
  */
-int** levelOrder(struct TreeNode* root, int** columnSizes, int* returnSize) {
+ int** levelOrderBottom(struct TreeNode* root, int** columnSizes, int* returnSize) {
 	if(root == NULL){
 		return NULL;
 	}
@@ -100,9 +106,11 @@ int** levelOrder(struct TreeNode* root, int** columnSizes, int* returnSize) {
     	(*columnSizes)[i] = 0;
     }
     int **result = malloc(sizeof(int *) * 10);
+    int **result2 = malloc(sizeof(int *) * 10);
     int temp = 1;
     for(i = 0; i < 10; i++){
     	result[i] = malloc(sizeof(int) * temp);
+      result2[i] = malloc(sizeof(int) * temp);
       temp *= 2;
     }
     int level = 0;
@@ -119,9 +127,19 @@ int** levelOrder(struct TreeNode* root, int** columnSizes, int* returnSize) {
     	if(node->left) enQueue(q, node->left, level + 1);
     	if(node->right) enQueue(q, node->right, level + 1);
     }
-    *returnSize = level + 1;
 
-    return result;
+    *returnSize = level + 1;
+    for(i = 0; i < (level + 1) / 2; i++){
+      int t = (*columnSizes)[i];
+      (*columnSizes)[i] = (*columnSizes)[level - i];
+      (*columnSizes)[level - i] = t;
+    }
+    for(i = 0; i < level + 1; i++){
+      for(j = 0; j < (*columnSizes)[i]; j++){
+        result2[i][j] = result[level - i][j];
+      }
+    }
+    return result2;
 }
 
 int main(){
@@ -149,7 +167,7 @@ int main(){
 	int* columnSizes = malloc(sizeof(int) * 10);
   int **result;
 	int* returnSize = malloc(sizeof(int));
-	result = levelOrder(root, &columnSizes, returnSize);
+	result = levelOrderBottom(root, &columnSizes, returnSize);
 
   printf("return size: %d\n", *returnSize);
   for(int i = 0; i < *returnSize; i++){
