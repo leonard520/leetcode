@@ -45,8 +45,11 @@ bool dfs(int *nums, int numsSize, int end, int target){
     if(temp != 0){
       nums[i] = 0;
       flag |= dfs(nums, numsSize, end - 1, target - temp);
+      if(flag == true) return true;
     }
+    nums[i] = temp;
     flag |= dfs(nums, numsSize, end - 1, target);
+    if(flag == true) return true;
   }
   return flag;
 }
@@ -66,12 +69,8 @@ bool makesquare(int* nums, int numsSize) {
   quickSort(nums, 0, numsSize - 1);
   bool flag = true;
   flag &= dfs(nums, numsSize, numsSize - 1, sum / 4);
-  printf("%d\n", flag);
   flag &= dfs(nums, numsSize, numsSize - 1, sum / 4);
-  printf("%d\n", flag);
   flag &= dfs(nums, numsSize, numsSize - 1, sum / 4);
-  printf("%d\n", flag);
   flag &= dfs(nums, numsSize, numsSize - 1, sum / 4);
-  printf("%d\n", flag);
   return flag;
 }
