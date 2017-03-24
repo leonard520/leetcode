@@ -6,6 +6,7 @@
 
 #define INT_MAX 2147483647
 #define INT_MIN (-INT_MAX - 1)
+#define MIN(a,b) (a) < (b) ? (a) : (b)
 
 struct TreeNode {
     int val;
@@ -13,11 +14,15 @@ struct TreeNode {
     struct TreeNode *right;
 };
 
-void getMinimumDifferenceInternal(struct TreeNode* root, int *prev, int min) {
-  if(root->left != NULL) getMinimumDifferenceInternal(root, prev, min);
+void getMinimumDifferenceInternal(struct TreeNode* root, int *prev, int *min) {
+  if(root->left) getMinimumDifferenceInternal(root->left, prev, min);
+  int current = INT_MAX;
   if(*prev >= 0){
-    min = 
+    current = root->val - *prev;
   }
+  *min = MIN(current, *min);
+  *prev = root->val;
+  if(root->right) getMinimumDifferenceInternal(root->right, prev, min);
 }
 /**
  * Definition for a binary tree node.
@@ -28,9 +33,11 @@ void getMinimumDifferenceInternal(struct TreeNode* root, int *prev, int min) {
  * };
  */
 int getMinimumDifference(struct TreeNode* root) {
-  if (root->left != NULL) inorderTraverse(root->left, val, min_dif);
-    if (val >= 0) min_dif = min(min_dif, root->val - val);
-    val = root->val;
-    if (root->right != NULL) inorderTraverse(root->right, val, min_dif);
-
+  if(root == NULL) return INT_MAX;
+  int *prev = malloc(sizeof(int));
+  int *min = malloc(sizeof(int));
+  *prev = -1;
+  *min = INT_MAX;
+  getMinimumDifferenceInternal(root, prev, min);
+  return *min;
 }
