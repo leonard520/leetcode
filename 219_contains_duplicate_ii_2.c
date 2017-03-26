@@ -5,16 +5,21 @@
 #include <string.h>
 #include <stdio.h>
 
+#define N 70000
+
+int bitmap[N];
+
 bool containsNearbyDuplicate(int* nums, int numsSize, int k) {
   if(nums == NULL || numsSize == 0){
     return false;
   }
+  memset(bitmap, 0, sizeof(N));
   for(int i = 0; i < numsSize; i++){
-    for(int j = 1; j <= k; j++){
-      if(i + j < numsSize){
-        if(nums[i] == nums[i + j]){
-          return true;
-        }
+    if(bitmap[nums[i] + 35000] != 0){
+      bitmap[nums[i] + 35000] = i;
+    } else {
+      if(i - bitmap[nums[i] + 35000] <= k){
+        return true;
       }
     }
   }
