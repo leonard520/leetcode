@@ -22,7 +22,7 @@ char* reverseStr(char* s, int k) {
   int len = strlen(s);
   int end = k - 1;
   for(int i = 0; i < len; i += 2 * k){
-    end = (end < len) ? end : len;
+    end = (end < len - 1) ? end : len - 1;
     reverseStrInternal(s, i, end);
     end += 2 * k;
   }
