@@ -41,7 +41,6 @@ int** updateMatrix(int** matrix, int matrixRowSize, int *matrixColSizes, int** c
           result[i][j] = (MIN(a, b)) + 1;
         }
       }
-      printf("%d, %d, %d\n", i, j, result[i][j]);
     }
   }
   for(int i = matrixRowSize - 1; i >= 0; i--){
@@ -53,10 +52,9 @@ int** updateMatrix(int** matrix, int matrixRowSize, int *matrixColSizes, int** c
         if(i < matrixRowSize - 1) a = result[i + 1][j];
         if(j < matrixColSizes[i] - 1) b = result[i][j + 1];
         if(a != INT_MAX || b != INT_MAX){
-          result[i][j] = (MIN(a, b)) + 1;
+          result[i][j] = MIN(result[i][j], ((MIN(a, b)) + 1));
         }
       }
-      printf("%d, %d, %d\n", i, j, result[i][j]);
     }
   }
 
