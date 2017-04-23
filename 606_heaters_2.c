@@ -44,7 +44,7 @@ int binarySearch(int *heaters, int heatersSize, int house){
   int mid = (low + high) / 2;
 
   do{
-    printf("%d, %d, %d\n", );
+    printf("%d, %d, %d, %d\n", low, high, mid, house);
     if(heaters[mid] == house){
       return 0;
     }
@@ -54,12 +54,14 @@ int binarySearch(int *heaters, int heatersSize, int house){
       } else if(mid == heatersSize - 1){
         return house - heaters[mid];
       } else{
+        low = mid + 1;
         mid = (mid + 1) / 2 + high / 2 + ((mid + 1) % 2 + high % 2) / 2;
       }
     } else if(heaters[mid] > house){
       if(mid == 0){
         return heaters[mid] - house;
       } else {
+        high = mid;
         mid = mid / 2 + (low - 1) / 2 + (mid % 2 + (low - 1) % 2) / 2;
       }
     }
